@@ -15,6 +15,8 @@ void BezierCurveApp::onRender()
     ImGui::Begin("HW2 BezierCurve (de-Casteljau)");
     ImGui::Text("Homework 2 for Computer Aided Geometric Design 2021");
 
+    ImGui::Separator();
+
     ImGui::Text("Number of control points: %d", controlPoints.size());
     ImGui::Text("Control points:");
     ImGui::SameLine();
@@ -31,8 +33,8 @@ void BezierCurveApp::onRender()
     ImGui::BulletText("Click and drag any point.");
     ImGui::Checkbox("Show Labels##2", &showLabels);
     ImPlotAxisFlags flags = ImPlotAxisFlags_NoTickLabels | ImPlotAxisFlags_NoTickMarks;
-    ImPlot::SetNextPlotLimits(0,1,0,1);
-    if (ImPlot::BeginPlot("##Bezier",0,0,ImVec2(-1,0),ImPlotFlags_CanvasOnly,flags,flags)) {
+    //ImPlot::SetNextPlotLimits(0,1,0,1);
+    if (ImPlot::BeginPlot("##Bezier", 0, 0, ImVec2(-1,0), ImPlotFlags_CanvasOnly | ImPlotFlags_AntiAliased, flags, flags)) {
         
         if (controlPoints.size() > 0) {
             ImPlot::PlotLine("controlPolygon",&controlPoints[0][0], &controlPoints[0][1], controlPoints.size(), 0, sizeof(Vec2d));
