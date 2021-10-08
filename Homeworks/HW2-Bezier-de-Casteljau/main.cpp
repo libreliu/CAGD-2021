@@ -4,6 +4,7 @@
 // Read online: https://github.com/ocornut/imgui/tree/master/docs
 
 #include "imgui.h"
+#include "implot.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include <stdio.h>
@@ -64,7 +65,9 @@ int main(int, char**)
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
+    ImPlot::CreateContext();
     ImGuiIO& io = ImGui::GetIO(); (void)io;
+    io.BackendFlags |= ImGuiBackendFlags_RendererHasVtxOffset;
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
@@ -148,6 +151,11 @@ int main(int, char**)
             ImGui::End();
         }
 
+        // 4. Another ImPlot simple window.
+        {
+            ImPlot::ShowDemoWindow();
+        }
+
         // Rendering
         ImGui::Render();
         int display_w, display_h;
@@ -163,6 +171,7 @@ int main(int, char**)
     // Cleanup
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
+    ImPlot::DestroyContext();
     ImGui::DestroyContext();
 
     glfwDestroyWindow(window);

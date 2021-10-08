@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.5)
 project(HW2-Bezier-De-Casteljau)
 
 # -- glfw --
@@ -32,6 +33,17 @@ add_library(imgui STATIC ${IMGUI_FILES})
 target_link_libraries(imgui PUBLIC glfw)
 target_include_directories(imgui PUBLIC ${IMGUI_DIR} ${IMGUI_DIR}/backends)
 
+# -- implot --
+add_library(implot STATIC
+    "implot/implot_demo.cpp"
+    "implot/implot_items.cpp"
+    "implot/implot.cpp"
+    "implot/implot.h"
+    "implot/implot_internal.h"
+)
+target_include_directories(implot PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/implot)
+target_link_libraries(implot PUBLIC imgui)
+
 # -- Homework --
 add_executable(hw-main main.cpp)
-target_link_libraries(hw-main imgui glfw OpenGL::GL)
+target_link_libraries(hw-main imgui implot glfw OpenGL::GL)

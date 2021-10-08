@@ -4,3 +4,6 @@
 [submodule "Homeworks/HW2-Bezier-de-Casteljau/glfw"]
 	path = Homeworks/HW2-Bezier-de-Casteljau/glfw
 	url = https://github.com/glfw/glfw
+[submodule "Homeworks/HW2-Bezier-de-Casteljau/implot"]
+	path = Homeworks/HW2-Bezier-de-Casteljau/implot
+	url = https://github.com/epezent/implot.git
