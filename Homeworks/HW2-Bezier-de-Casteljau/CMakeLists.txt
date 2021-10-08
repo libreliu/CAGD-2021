@@ -45,5 +45,5 @@ target_include_directories(implot PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/implot)
 target_link_libraries(implot PUBLIC imgui)
 
 # -- Homework --
-add_executable(hw-main main.cpp)
+add_executable(hw-main main.cpp BezierCurveApp.cpp)
 target_link_libraries(hw-main imgui implot glfw OpenGL::GL)
