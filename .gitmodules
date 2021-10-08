@@ -1,0 +1,6 @@
+[submodule "Homeworks/HW2-Bezier-de-Casteljau/imgui"]
+	path = Homeworks/HW2-Bezier-de-Casteljau/imgui
+	url = https://github.com/ocornut/imgui
+[submodule "Homeworks/HW2-Bezier-de-Casteljau/glfw"]
+	path = Homeworks/HW2-Bezier-de-Casteljau/glfw
+	url = https://github.com/glfw/glfw
