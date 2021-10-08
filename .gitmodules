@@ -7,3 +7,12 @@
 [submodule "Homeworks/HW2-Bezier-de-Casteljau/implot"]
 	path = Homeworks/HW2-Bezier-de-Casteljau/implot
 	url = https://github.com/epezent/implot.git
+[submodule "Homeworks/HW3-Bezier-Bernstein/imgui"]
+	path = Homeworks/HW3-Bezier-Bernstein/imgui
+	url = https://github.com/ocornut/imgui
+[submodule "Homeworks/HW3-Bezier-Bernstein/glfw"]
+	path = Homeworks/HW3-Bezier-Bernstein/glfw
+	url = https://github.com/glfw/glfw
+[submodule "Homeworks/HW3-Bezier-Bernstein/implot"]
+	path = Homeworks/HW3-Bezier-Bernstein/implot
+	url = https://github.com/epezent/implot.git
