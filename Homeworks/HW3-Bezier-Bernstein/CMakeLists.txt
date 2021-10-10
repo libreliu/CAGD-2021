@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(HW2-Bezier-De-Casteljau)
+project(HW3-Bezier-Bernstein)
 
 # -- glfw --
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
