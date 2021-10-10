@@ -17,7 +17,10 @@ print(f"You've specified {destIdx + 1}: {hw_dir[destIdx]}")
 destZipName = f"46_刘紫檀_Homework{destIdx + 1}.zip"
 
 def zipDir(ziph, path):
-  for root, dirs, files in os.walk(path):
+  excludes = ['.git']
+
+  for root, dirs, files in os.walk(path, topdown=True):
+    dirs[:] = [d for d in dirs if d not in excludes]
     for file in files:
       ziph.write(os.path.join(root, file), 
         os.path.relpath(os.path.join(root, file), 
