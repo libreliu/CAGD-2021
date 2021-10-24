@@ -31,12 +31,19 @@ void BezierSplineApp::onRender()
         needResample = true;
     }
 
-    ImGui::BulletText("Click and drag any point.");
+    ImGui::BulletText("NEW: Hold #Ctrl and click to add point");
     ImGui::Checkbox("Show Labels##2", &showLabels);
     ImPlotAxisFlags flags = ImPlotAxisFlags_NoTickLabels | ImPlotAxisFlags_NoTickMarks;
     //ImPlot::SetNextPlotLimits(0,1,0,1);
     if (ImPlot::BeginPlot("Curve", "x", "y", ImVec2(-1, -1), ImPlotFlags_CanvasOnly | ImPlotFlags_AntiAliased, flags, flags)) {
-        
+
+        // Add point with Control
+        if (ImPlot::IsPlotHovered() && ImGui::IsMouseClicked(0) && ImGui::GetIO().KeyCtrl) {
+            ImPlotPoint pt = ImPlot::GetPlotMousePos();
+            controlPoints.push_back(Vec2d(pt.x, pt.y));
+            needResample = true;
+        }
+
         if (controlPoints.size() > 0) {
             ImPlot::PlotLine("controlPolygon",&controlPoints[0][0], &controlPoints[0][1], controlPoints.size(), 0, sizeof(Vec2d));
 
@@ -47,10 +54,15 @@ void BezierSplineApp::onRender()
             }
 
             if (needResample) {
-                //resample();
+                bezSpline.setBoundaryOpts(BezierSpline::BoundaryOpts::NATURAL);
+                bezSpline.setParamOpts(BezierSpline::ParamOpts::UNIFORM);
+                bezSpline.setKnots(controlPoints);
             }
 
-            //ImPlot::PlotLine("bezierCurve", &tessellatedCurve[0][0], &tessellatedCurve[0][1], tessellatedCurve.size(), 0, sizeof(Vec2d));
+            auto &tessellatedCurve = bezSpline.getTessellatedCurve();
+            if (tessellatedCurve.size() > 0) {
+                ImPlot::PlotLine("bezierCurve", &tessellatedCurve[0][0], &tessellatedCurve[0][1], tessellatedCurve.size(), 0, sizeof(Vec2d));
+            }
         }
         
         ImPlot::EndPlot();

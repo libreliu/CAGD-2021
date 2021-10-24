@@ -18,6 +18,8 @@ namespace CAGD
     // GUI Related
     bool showLabels;
 
+    BezierSpline bezSpline;
+
   public:
     static inline BezierSplineApp &getInstance()
     {

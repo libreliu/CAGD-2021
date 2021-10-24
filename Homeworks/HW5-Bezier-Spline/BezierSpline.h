@@ -7,18 +7,23 @@ namespace CAGD {
 
 // A cubic bezier spline implementation
 class BezierSpline {
+public:
+  enum class ParamOpts {
+    UNIFORM
+  };
+  enum class BoundaryOpts {
+    NATURAL
+  };
+
+
 private:
 
   // -- results & options --
   Vec<Vec2d> knots;
-  Vec<Vec<Vec2d>> controlPoints;
+  Vec<Vec2d> controlPoints;
   Vec<Vec2d> tessellatedCurve;
-  enum class ParamOpts {
-    UNIFORM
-  } paramOpts;
-  enum class BoundaryOpts {
-    NATURAL
-  } boundaryOpts;
+  enum class ParamOpts paramOpts;
+  enum class BoundaryOpts boundaryOpts;
   bool needUpdate;
 
   // -------------
@@ -31,7 +36,8 @@ private:
   }
 
 public:
-  BezierSpline() : needUpdate(false) {}
+
+  BezierSpline() : needUpdate(true) {}
 
   inline const Vec<Vec2d> &getKnots() const {
     return knots;
@@ -39,18 +45,36 @@ public:
 
   inline void setKnots(const Vec<Vec2d>& knots) {
     this->knots = knots;
+    needUpdate = true;
   }
 
   inline void setParamOpts(enum class ParamOpts pOpts) {
-    paramOpts = pOpts;
+    if (pOpts != paramOpts) {
+      paramOpts = pOpts;
+      needUpdate = true;
+    }
   }
 
   inline void setBoundaryOpts(enum class BoundaryOpts bOpts) {
-    boundaryOpts = bOpts;
+    if (bOpts != boundaryOpts) {
+      boundaryOpts = bOpts;
+      needUpdate = true;
+    }
   }
 
   void calcControlPoints();
   void resampleSpline(int samplePerSegment = 100);
+
+  const Vec<Vec2d> &getTessellatedCurve() {
+    if (!needUpdate) {
+      return tessellatedCurve;
+    }
+
+    calcControlPoints();
+    resampleSpline();
+    needUpdate = false;
+    return tessellatedCurve;
+  }
 };
 
 }
