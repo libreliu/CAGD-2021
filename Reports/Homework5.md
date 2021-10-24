@@ -105,6 +105,8 @@ CMake Configure & Build 即可。`hw-main` 为主程序。
 
 ### 结果
 
+> 相比 HW3，增加了用 Ctrl 增加控制点的功能。
+
 下面是一些展示：
 
 ![image-20211024223635375](Homework5.assets/image-20211024223635375.png)
