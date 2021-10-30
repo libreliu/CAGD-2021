@@ -28,3 +28,15 @@
 [submodule "Homeworks/HW5-Bezier-Spline/eigen"]
 	path = Homeworks/HW5-Bezier-Spline/eigen
 	url = https://gitlab.com/libeigen/eigen.git
+[submodule "Homeworks/HW6-B-Spline/imgui"]
+	path = Homeworks/HW6-B-Spline/imgui
+	url = https://github.com/ocornut/imgui
+[submodule "Homeworks/HW6-B-Spline/implot"]
+	path = Homeworks/HW6-B-Spline/implot
+	url = https://github.com/epezent/implot.git
+[submodule "Homeworks/HW6-B-Spline/glfw"]
+	path = Homeworks/HW6-B-Spline/glfw
+	url = https://github.com/glfw/glfw
+[submodule "Homeworks/HW6-B-Spline/eigen"]
+	path = Homeworks/HW6-B-Spline/eigen
+	url = https://gitlab.com/libeigen/eigen.git
