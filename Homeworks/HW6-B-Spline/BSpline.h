@@ -134,7 +134,7 @@ public:
   }
 
   void calcControlPoints();
-  void resampleSpline(int samplePerSegment = 5);
+  void resampleSpline(int samplePerSegment = 20);
 
   inline const Vec<Vec2d> &getTessellatedCurve() {
     if (!needUpdate) {

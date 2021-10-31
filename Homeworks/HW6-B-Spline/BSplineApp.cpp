@@ -33,6 +33,8 @@ void BSplineApp::onRender()
 
     ImGui::BulletText("NEW: Hold #Ctrl and click to add point");
     ImGui::Checkbox("Show Labels##2", &showLabels);
+    ImGui::SameLine();
+    ImGui::Checkbox("Show Control Knots", &showControlKnots);
     ImPlotAxisFlags flags = ImPlotAxisFlags_NoTickLabels | ImPlotAxisFlags_NoTickMarks;
     //ImPlot::SetNextPlotLimits(0,1,0,1);
     if (ImPlot::BeginPlot("Curve", "x", "y", ImVec2(-1, -1), ImPlotFlags_CanvasOnly | ImPlotFlags_AntiAliased, flags, flags)) {
@@ -63,6 +65,19 @@ void BSplineApp::onRender()
             auto &tessellatedCurve = bSpline.getTessellatedCurve();
             if (tessellatedCurve.size() > 0) {
                 ImPlot::PlotLine("bSplineCurve", &tessellatedCurve[0][0], &tessellatedCurve[0][1], tessellatedCurve.size(), 0, sizeof(Vec2d));
+            }
+
+            auto &ctrlKnots = bSpline.getControlPoints();
+            if (showControlKnots && ctrlKnots.size() > 0) {
+                ImPlot::PushStyleVar(ImPlotStyleVar_MarkerSize, 4);
+				ImPlot::PushStyleColor(ImPlotCol_MarkerFill, ImPlot::GetColormapColor(3));
+                ImPlot::PlotScatter("ctrlKnots", &ctrlKnots[0][0], &ctrlKnots[0][1], ctrlKnots.size(), 0, sizeof(Vec2d));
+				ImPlot::PopStyleVar();
+				ImPlot::PopStyleColor();
+
+                ImPlot::PushStyleColor(ImPlotCol_Line, ImPlot::GetColormapColor(3));
+                ImPlot::PlotLine("ctrlKnotsPoly",&ctrlKnots[0][0], &ctrlKnots[0][1], ctrlKnots.size(), 0, sizeof(Vec2d));
+                ImPlot::PopStyleColor();
             }
         }
         
