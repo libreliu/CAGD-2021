@@ -73,18 +73,8 @@ public:
     int k
   ) {
     if (k == 1) {
-      // Search for knots
-      int tIdx = -1;
-      for (int idx = 0; idx < tKnots.size(); idx++) {
-        if ((t >= tKnots(idx)) && 
-        ((idx == tKnots.size() - 1) ? true : t <= tKnots(idx + 1))) {
-          tIdx = idx;
-        }
-      }
-      // tIdx represents the index for left endpoint
-      assert(tIdx != -1);
-
-      if (tIdx == i) {
+      if (tKnots(i) == t ||  // Fix for t = t_{i} in multiple weighted knot case
+        (tKnots(i) <= t && tKnots(i+1) > t)) {
         return 1.0;
       } else {
         return 0.0;

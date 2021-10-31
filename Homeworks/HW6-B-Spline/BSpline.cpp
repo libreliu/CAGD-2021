@@ -18,8 +18,7 @@ void BSpline::calcControlPoints() {
   b.setZero();
 
   // Generate parameterizations
-  //tKnots = Eigen::VectorXd(n+7);
-  tKnots = Eigen::VectorXd(n+9);
+  tKnots = Eigen::VectorXd(n+7);
   sKnots = Eigen::VectorXd(n+1);
   
   switch (paramOpts) {
@@ -34,7 +33,7 @@ void BSpline::calcControlPoints() {
       tKnots(i + 4) = i+1;
     }
 
-    tKnots(n+8) = tKnots(n+7) = tKnots(n+6) = tKnots(n+5) = tKnots(n+4) = tKnots(n+3) = n;
+    tKnots(n+6) = tKnots(n+5) = tKnots(n+4) = tKnots(n+3) = n;
 
     for (int i = 0; i < n+1; i++) {
       sKnots(i) = i;
