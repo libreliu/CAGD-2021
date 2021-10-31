@@ -72,14 +72,30 @@ public:
     int i,
     int k
   ) {
-    if (k == 1) {
-      if (tKnots(i) == t ||  // Fix for t = t_{i} in multiple weighted knot case
-        (tKnots(i) <= t && tKnots(i+1) > t)) {
-        return 1.0;
+    double res;
+    if (k == 2) {
+      if (tKnots(i) <= t && tKnots(i+1) >= t && tKnots(i) != tKnots(i+1)) {
+        res = (t - tKnots(i)) / (tKnots(i+1) - tKnots(i));
+      } else if (tKnots(i+1) <= t && tKnots(i+2) >= t && tKnots(i+1) != tKnots(i+2)) {
+        res = (tKnots(i+2) - t) / (tKnots(i+2) - tKnots(i+1));
       } else {
-        return 0.0;
+        // assert(
+        //   (tKnots.size() >= i+3 && tKnots(i+2) != tKnots(i+1)) ||
+        //   (tKnots.size() >= i+2 && tKnots(i+1) != tKnots(i))
+        // );
+        res = 0;
       }
+      // printf("computeN: N_{%d,%d}(%lf) = %lf\n", i, k, t, res);
+      return res;
     }
+    // if (k == 1) {
+    //   if (tKnots(i) == t ||  // Fix for t = t_{i} in multiple weighted knot case
+    //     (tKnots(i) <= t && tKnots(i+1) > t)) {
+    //     return 1.0;
+    //   } else {
+    //     return 0.0;
+    //   }
+    // }
 
     double leftTerm = 0;
     {
@@ -88,7 +104,8 @@ public:
       if (dividend == 0) {
         leftTerm = 0;
       } else {
-        leftTerm = (t - tKnots(i)) / dividend * computeN(tKnots, t, i, k-1);
+        double Nres = computeN(tKnots, t, i, k-1);
+        leftTerm = (Nres == 0) ? 0 : (t - tKnots(i)) / dividend * Nres;
       }
     }
 
@@ -99,18 +116,19 @@ public:
       if (dividend == 0) {
         rightTerm = 0;
       } else {
-        rightTerm = (tKnots(i+k) - t) / dividend * computeN(tKnots, t, i+1, k-1);
+        double Nres = computeN(tKnots, t, i+1, k-1);
+        rightTerm = (Nres == 0) ? 0 : (tKnots(i+k) - t) / dividend * Nres;
       }
     }
-
-    if (k == 4) {
-      printf("computeN: N_{%d,%d}(%lf) = %lf\n", i, k, t, leftTerm + rightTerm);
-      printf("- tKnots used: ");
-      for (int idx = 0; idx < tKnots.size(); idx++) {
-        printf("%.5lf ", tKnots(idx));
-      }
-      printf("\n");
-    }
+    // printf("computeN: N_{%d,%d}(%lf) = %lf\n", i, k, t, leftTerm + rightTerm);
+    // if (k == 4) {
+    //   printf("computeN: N_{%d,%d}(%lf) = %lf\n", i, k, t, leftTerm + rightTerm);
+    //   printf("- tKnots used: ");
+    //   for (int idx = 0; idx < tKnots.size(); idx++) {
+    //     printf("%.5lf ", tKnots(idx));
+    //   }
+    //   printf("\n");
+    // }
 
     return leftTerm + rightTerm;
   }

@@ -75,10 +75,10 @@ void BSpline::calcControlPoints() {
   }
 
 
-  // Total 3n+1 equations
+  // Total n+3 equations
   assert(equationIdx == n+3);
-  std::cout << A << std::endl;
-  std::cout << b << std::endl;
+  // std::cout << A << std::endl;
+  // std::cout << b << std::endl;
 
   Eigen::MatrixXd x = A.colPivHouseholderQr().solve(b);
   
