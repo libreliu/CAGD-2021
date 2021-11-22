@@ -52,3 +52,6 @@
 [submodule "Homeworks/HW8-Rational-Splines/eigen"]
 	path = Homeworks/HW8-Rational-Splines/eigen
 	url = https://gitlab.com/libeigen/eigen.git
+[submodule ".\\Homeworks\\HW8-Rational-Splines\\MeowGL\\gl3w\\"]
+	path = .\\Homeworks\\HW8-Rational-Splines\\MeowGL\\gl3w\\
+	url = https://github.com/libreliu/gl3w
