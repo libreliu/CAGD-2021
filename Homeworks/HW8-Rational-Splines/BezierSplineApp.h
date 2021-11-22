@@ -24,6 +24,10 @@ namespace CAGD
     float prob1_x[3];
     float prob1_d;
 
+    BezierSplineApp() {
+      prob1_d = 1.0f;
+    }
+
   public:
     static inline BezierSplineApp &getInstance()
     {
