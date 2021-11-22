@@ -40,3 +40,15 @@
 [submodule "Homeworks/HW6-B-Spline/eigen"]
 	path = Homeworks/HW6-B-Spline/eigen
 	url = https://gitlab.com/libeigen/eigen.git
+[submodule "Homeworks/HW8-Rational-Splines/imgui"]
+	path = Homeworks/HW8-Rational-Splines/imgui
+	url = https://github.com/ocornut/imgui
+[submodule "Homeworks/HW8-Rational-Splines/implot"]
+	path = Homeworks/HW8-Rational-Splines/implot
+	url = https://github.com/epezent/implot.git
+[submodule "Homeworks/HW8-Rational-Splines/glfw"]
+	path = Homeworks/HW8-Rational-Splines/glfw
+	url = https://github.com/glfw/glfw
+[submodule "Homeworks/HW8-Rational-Splines/eigen"]
+	path = Homeworks/HW8-Rational-Splines/eigen
+	url = https://gitlab.com/libeigen/eigen.git
