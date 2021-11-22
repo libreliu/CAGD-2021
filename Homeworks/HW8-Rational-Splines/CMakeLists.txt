@@ -11,7 +11,6 @@ add_subdirectory(glfw)
 # -- opengl --
 find_package(OpenGL REQUIRED)
 
-
 # -- imgui --
 set(IMGUI_DIR "${CMAKE_CURRENT_SOURCE_DIR}/imgui")
 set(IMGUI_FILES
@@ -48,6 +47,14 @@ target_link_libraries(implot PUBLIC imgui)
 add_library(eigen3 INTERFACE)
 target_include_directories(eigen3 INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/eigen)
 
+# -- MeowGL --
+add_subdirectory(MeowGL)
+
 # -- Homework --
-add_executable(hw-main main.cpp BezierSplineApp.cpp BezierSpline.cpp)
-target_link_libraries(hw-main imgui implot glfw OpenGL::GL eigen3)
+add_executable(hw-main 
+    main.cpp
+    HomeworkApp.cpp
+    BezierCurve.cpp
+)
+target_include_directories(hw-main PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(hw-main imgui implot glfw OpenGL::GL eigen3 MeowGL)
