@@ -114,16 +114,6 @@ $$ -->
 
 ## 问题二
 
-用有理二次 Bezier 样条绘制椭圆
-$$
-\frac{x^2}{a^2} + \frac{y^2}{b^2} = 1
-$$
-和双曲线
-$$
-\frac{x^2}{a^2} − \frac{y^2}{b^2} = 1
-$$
-使得样条分段尽可能少。参数 $ a $ 和 $ b $ 由用户指定。
-
 
 
 ### 分析
@@ -171,9 +161,47 @@ $$
 
 ## 问题三
 
-在 3D 空间中绘制前一题中用齐次坐标表示的 Bezier 曲线（即做投影变换之前的三维曲线）。
+某二次 Bezier 三角形有顶点参数坐标 $ a = (0, 0), b = (1, 0), c = (0.5, 1) $ 和以下控制点
 
-> TODO: 其实很好画，但是 ImGui 要写单独的 Renderer 来渲染才行..
->
-> 写了仨小时没写完，从零搓果然还是太费时间了
+$$
+F(a, a) = \begin{pmatrix} 0 \\ 0 \\ 0 \end{pmatrix}
+F(a, b) = \begin{pmatrix} 2 \\ 2 \\ 4 \end{pmatrix}
+F(a, c) = \begin{pmatrix} 4 \\ -2 \\ 6 \end{pmatrix} \\
+F(b, b) = \begin{pmatrix} 6 \\ -4 \\ 4 \end{pmatrix}
+F(b, c) = \begin{pmatrix} 8 \\ 0 \\ 4 \end{pmatrix}
+F(c, c) = \begin{pmatrix} 4 \\ 4 \\ 0 \end{pmatrix}
+$$
+
+问 $ p_1 = (0.25, 0.5), p_2 = (0.3, 0.75), p_3 = (0.5, 0.5) $ 中，哪个参数在三角形外？对于在三角形内的参数，用 de Casteljau 算法计算曲面 F(p, p) 在该参数处的坐标。
+
+### 分析求解
+
+容易知道 $ p_1 $ 在三角形的边上， $ p_2 $ 在三角形外，$ p_3 $ 在三角形内。
+
+首先计算 $ p_3 $ 的重心坐标。列方程解后易得 
+$$
+p_3 = 0.25 a + 0.25 b + 0.5 c
+$$
+
+所以，
+$$
+\begin{aligned}
+F(a, p_3) &= 0.25 F(a, a) + 0.25 F(a, b) + 0.5 F(a, c) \\
+&= 0.25  \begin{pmatrix} 0 \\ 0 \\ 0 \end{pmatrix} + 0.25  \begin{pmatrix} 2 \\ 2 \\ 4 \end{pmatrix} + 0.5  \begin{pmatrix} 4 \\ -2 \\ 6 \end{pmatrix} \\
+&= 233
+
+F(b, p_3) &=0.25 F(b, a) + 0.25 F(b, b) + 0.5 F(b, c) \\
+&= 0.25  \begin{pmatrix} 2 \\ 2 \\ 4 \end{pmatrix} + 0.25   \begin{pmatrix} 6 \\ -4 \\ 4 \end{pmatrix} + 0.5   \begin{pmatrix} 8 \\ 0 \\ 4 \end{pmatrix} \\
+&= 233
+
+F(c, p_3) &= 0.25 F(c, a) + 0.25 F(c, b) + 0.5 F(c, c)  \\
+&= 0.25  \begin{pmatrix} 4 \\ -2 \\ 6 \end{pmatrix} + 0.25   \begin{pmatrix} 8 \\ 0 \\ 4 \end{pmatrix} + 0.5  \begin{pmatrix} 4 \\ 4 \\ 0 \end{pmatrix} \\
+&= 233
+
+F(p_3, p_3) &= F(0.25a + 0.25b + 0.5c, 0.25a + 0.25b + 0.5c) \\
+&= 0.25 F(a, p_3) + 0.25 F(b, p_3) + 0.5 F(c, p_3) \\
+&= 
+
+\end{aligned}
+$$
 
