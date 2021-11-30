@@ -70,9 +70,10 @@ def calc_control_points():
 
 def calc_dual_control_points():
     pAggregated = calc_control_points()
-    pAggregated[0, 1] *= -1
+    #pAggregated[0, 1] *= -1
     pAggregated[1, 0] *= -1
-    pAggregated[2, 1] *= -1
+    pAggregated[1, 1] *= -1
+    #pAggregated[2, 1] *= -1
     pAggregated[1, 2] *= -1
     return pAggregated
 
@@ -128,7 +129,7 @@ def plot_prob1(samplePerAxis):
     fig = plt.figure()
     ax = fig.add_subplot(projection='3d')
 
-    #ax.plot_wireframe(XX, YY, Z)
+    ax.plot_wireframe(XX, YY, Z)
     ax.plot_wireframe(XXDual, YYDual, ZDual)
     plt.show()
 

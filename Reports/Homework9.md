@@ -43,7 +43,9 @@ $$
 \right.
 $$
 
-这里有两种做法，一种是用待定系数，因为双 2 次有理 Bezier 曲面 9 个的基函数可以写出来，然后线性组合去拼就可以；另一种办法是用旋转曲面的构造方法（TODO）。
+这里有两种做法，一种是用待定系数，因为双 2 次有理 Bezier 曲面 9 个的基函数可以写出来，然后线性组合去拼就可以；另一种办法是用旋转曲面的构造方法。
+
+<!-- TODO: 补充旋转曲面的构造方法 -->
 
 设方程为
 $$
@@ -77,87 +79,61 @@ $$
 观察到
 
 $$
-\frac{ \sum_{ij} \begin{pmatrix}p_{ij_x} \\ p_{ij_y} \\ p_{ij_z} \end{pmatrix} B_i^{(2)}(\frac{u_{\text{new}}}{2u_{\text{new}}-1}) B_j^{(2)}(\frac{v_{\text{new}}}{2v_{\text{new}}-1})} { \sum_{ij} p_{ij_w} B_i^{(2)}(\frac{u_{\text{new}}}{2u_{\text{new}}-1}) B_j^{(2)}(\frac{v_{\text{new}}}{2v_{\text{new}}-1})}
+1 - t = \frac{t_\text{new}-1}{2t_\text{new}-1} \\
+
+B^{(2)}_0(t) = \left(\frac{t_\text{new}-1}{2t_\text{new}-1}\right)^2 \\
+B^{(2)}_1(t) = \frac{(2t_{\text{new}})(t_\text{new}-1)}{(2t_{\text{new}}-1)^2} \\
+B^{(2)}_2(t) = \left(\frac{t_{\text{new}}}{2t_{\text{new}}-1}\right)^2
 $$
 
-的效果就是让 $ \vec p_{01}, \vec p_{10}, \vec p_{21}, \vec p_{12} $ 的符号变成负的，那对偶曲面就比较好画了。
-
-<!-- 
-另一种想法是考虑这是一个旋转曲面的事实。
-不用复杂的待定系数，其实这个曲面是 X-Z 平面的有理 Bezier 曲线 $ b_1(u) $ 和 X-Y 平面的有理 Bezier 曲线 $ b_2(v) $ 张成的，那么就可以自然写出齐次坐标形式
-$$
-\vec b_1(u) = \begin{pmatrix}1 \\ 0 \\ 0 \\ 1\end{pmatrix} B_0^{(2)}(u)+ \begin{pmatrix}1 \\ 0 \\ 1 \\ 1\end{pmatrix} B_1^{(2)}(u)+ \begin{pmatrix}0 \\ 0 \\ 2 \\ 2\end{pmatrix} B_2^{(2)}(u) \\
-\vec b_2(v) = \begin{pmatrix}1 \\ 0 \\ 0 \\ 1\end{pmatrix} B_0^{(2)}(v)+ \begin{pmatrix}1 \\ 1 \\ 0 \\ 1\end{pmatrix} B_1^{(2)}(v)+ \begin{pmatrix}0 \\ 2 \\ 0 \\ 2\end{pmatrix} B_2^{(2)}(v) 
-$$
-
-然后作为向量积曲面 $ b_1(u) b_1(v) $ 就可以了。
+所以下面的式子带入后的分母可以互相约去，而分子的效果就是让 $ B_1^{(2)}(t) $ 的符号颠倒。
 
 $$
 \begin{aligned}
-b_1(u)b_2(v) = 
-&\begin{pmatrix}1 \\ 0 \\ 0 \\ 1\end{pmatrix} B_0^{(2)}(u)B_0^{(2)}(v) + 
-\begin{pmatrix}1 \\ 0 \\ 0 \\ 1\end{pmatrix} B_0^{(2)}(u)B_1^{(2)}(v) + 
-\begin{pmatrix}0 \\ 0 \\ 0 \\ 2\end{pmatrix} B_0^{(2)}(u)B_2^{(2)}(v) + \\
-&\begin{pmatrix}1 \\ 0 \\ 0 \\ 1\end{pmatrix} B_1^{(2)}(u)B_0^{(2)}(v) +
-\begin{pmatrix}1 \\ 0 \\ 0 \\ 1\end{pmatrix} B_1^{(2)}(u)B_1^{(2)}(v) +
-\begin{pmatrix}0 \\ 0 \\ 0 \\ 2\end{pmatrix} B_1^{(2)}(u)B_2^{(2)}(v) + \\
-&\begin{pmatrix}0 \\ 0 \\ 0 \\ 2\end{pmatrix} B_2^{(2)}(u)B_0^{(2)}(v) +
-\begin{pmatrix}0 \\ 0 \\ 0 \\ 2\end{pmatrix} B_2^{(2)}(u)B_1^{(2)}(v) +
-\begin{pmatrix}0 \\ 0 \\ 0 \\ 4\end{pmatrix} B_2^{(2)}(u)B_2^{(2)}(v)
+&\qquad \frac{ \sum_{ij} \begin{pmatrix}p_{ij_x} \\ p_{ij_y} \\ p_{ij_z} \end{pmatrix} B_i^{(2)}(\frac{u  }{2u  -1}) B_j^{(2)}(\frac{v  }{2v  -1})} { \sum_{ij} p_{ij_w} B_i^{(2)}(\frac{u  }{2u  -1}) B_j^{(2)}(\frac{v  }{2v  -1})} \\
 \end{aligned}
-$$ -->
+$$
+
+而这个符号的变化我们可以放到控制点中去。
+
+但是，对偶不是这么简单的。这个曲面其实是 X-Z 中的 1/4 弧和 X-Y 中的 1/4 弧张成的，我们其实想要的是 1/2 弧和 X-Y 中的 3/4 弧。
+
+这个就要弄回原来的参数域想一个新的映射了，很可能没有这种系数直接颠倒就会成的好事。
+
+> 展示一个颠倒 $ p_{1j}, \forall j $ 的全部系数的图
+> 
+> ![flaw](Homework9.assets/flaw1.png)
 
 
 ### 结果展示
 
+程序是用 Python 3.8 + numpy + matplotlib 写的。待定系数计算控制点的程序也在其中。
 
+![](Homework9.assets/prob1.png)
+
+> 构造 8 个 patch 就可以覆盖全部，或者用他和上面展示的 patch 作为一组 patch，共两组的话可以覆盖全部。
 
 ## 问题二
 
-
+将椭球面 $ 3x^2 + 2y^2 + z^2 = 1 $ 用一张双 3 次有理 Bezier 曲面表示，并绘制出来。
 
 ### 分析
 
+从椭球面的参数表示出发
 
-#### 对偶圆锥曲线
-
-观察到不管是椭圆的参数表示
 $$
-\left\{
-\begin{aligned}
-&x = a \cos t\\
-&y = b \sin t
-\end{aligned}
-\right.
+\vec f(u, v) = (\frac{1}{\sqrt 3}\frac{2u(1-u^2)}{(1+u^2)(1+v^2)}, \frac{1}{\sqrt 2}\frac{4uv}{(1+u^2)(1+v^2)}, \frac{(1+u^2)(1-v^2)}{(1+u^2)(1+v^2)})
 $$
-还是双曲线的参数表示
+
+考虑开花形式
+
 $$
-\left\{
-\begin{aligned}
-&x = a \sec t\\
-&y = b \tan t
-\end{aligned}
-\right.
+F(u_1, u_2, u_3, v_1, v_2, v_3)
 $$
-如果带入半角公式的时候（$ t = \tan (\varphi/2)$）的换元中的 $ \varphi $ 能跑遍的话，那么参数表示也可以完整表示全部的曲线。一般的有理 Bezier 是定义在 $ [0, 1] $ 上的，现在我们想得到 $ (1, \infty) $ 和 $ (-\infty, 0) $ 的曲线，最简单的方法是做换元
-$$
-t = \frac{t_{\text{new}}}{2t_{\text{new}}-1}
-$$
-这样一波操作下来，我们发现 $ t_{\text{new}} $ 从 $[0, 1]$ 跑的时候，正好能跑到 $ t $ 取上面那两段。
 
-带入换元，我们发现只要把 $ \vec p_1 $ 的分量加个负号，就还能用有理 Bezier 的方法来画整根曲线。
+> 找到开花形式的替换公式，带入就可以得到 $ F(0, 0, 0; 0, 0, 0) $ 到 $ F(1, 1, 1; 1, 1, 1) $ 的各个控制点。$ u, v $ 组内可以轮换（是对称的），但是组间显然不可以。
 
-#### 绘制
-
-按定义，用如下公式绘制即可
-
-![image-20211123020535322](Homework8.assets/image-20211123020535322.png)
-
-### 结果展示
-
-![image-20211123050409235](Homework8.assets/image-20211123050409235.png)
-
-![image-20211123050433904](Homework8.assets/image-20211123050433904.png)
+> TODO
 
 ## 问题三
 
@@ -188,19 +164,19 @@ $$
 \begin{aligned}
 F(a, p_3) &= 0.25 F(a, a) + 0.25 F(a, b) + 0.5 F(a, c) \\
 &= 0.25  \begin{pmatrix} 0 \\ 0 \\ 0 \end{pmatrix} + 0.25  \begin{pmatrix} 2 \\ 2 \\ 4 \end{pmatrix} + 0.5  \begin{pmatrix} 4 \\ -2 \\ 6 \end{pmatrix} \\
-&= 233
+&= \begin{pmatrix} 2.5 \\ -0.5 \\ 4 \end{pmatrix} \\
 
 F(b, p_3) &=0.25 F(b, a) + 0.25 F(b, b) + 0.5 F(b, c) \\
 &= 0.25  \begin{pmatrix} 2 \\ 2 \\ 4 \end{pmatrix} + 0.25   \begin{pmatrix} 6 \\ -4 \\ 4 \end{pmatrix} + 0.5   \begin{pmatrix} 8 \\ 0 \\ 4 \end{pmatrix} \\
-&= 233
+&= \begin{pmatrix} 6 \\ -0.5 \\ 4 \end{pmatrix} \\
 
 F(c, p_3) &= 0.25 F(c, a) + 0.25 F(c, b) + 0.5 F(c, c)  \\
 &= 0.25  \begin{pmatrix} 4 \\ -2 \\ 6 \end{pmatrix} + 0.25   \begin{pmatrix} 8 \\ 0 \\ 4 \end{pmatrix} + 0.5  \begin{pmatrix} 4 \\ 4 \\ 0 \end{pmatrix} \\
-&= 233
+&= \begin{pmatrix} 5 \\ 1.5 \\ 2.5 \end{pmatrix} \\
 
 F(p_3, p_3) &= F(0.25a + 0.25b + 0.5c, 0.25a + 0.25b + 0.5c) \\
 &= 0.25 F(a, p_3) + 0.25 F(b, p_3) + 0.5 F(c, p_3) \\
-&= 
+&= \begin{pmatrix} 4.625 \\ 0.5 \\ 3.25 \end{pmatrix}
 
 \end{aligned}
 $$
