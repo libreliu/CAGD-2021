@@ -56,7 +56,8 @@ end
 
 if isempty(H), H = { [] }; end
 
-if size(x,2)>2 && range(x(:,3))>eps
+%if size(x,2)>2 && range(x(:,3))>eps
+if size(x,2)>2
 % naive way, holes with max number of vertices is the Boundary
     [~, Bid] = max( cellfun(@numel, H) );
 else
