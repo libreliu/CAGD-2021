@@ -7,6 +7,7 @@ os.chdir(workdir)
 print(f"Workdir: {os.getcwd()}")
 
 hw_dir = os.listdir("./Homeworks")
+hw_dir = sorted(hw_dir, key=lambda x: int(x.split('-')[0][2:]))
 for idx, hw_name in enumerate(hw_dir):
   print(f"{idx+1}: {hw_name}")
 
